@@ -17,11 +17,13 @@ public class TicketMachine
     static Scanner key = new Scanner(System.in);
     
      // The price of a ticket from this machine.
-    private int price;
+    private double price;
     // The amount of money entered by a customer so far.
-    private int balance;
+    private double balance;
     // The total amount of money collected by this machine.
     private int total;
+    
+    private String Location;
 
     /**
      * Create a machine that issues tickets of the given price.
@@ -30,31 +32,59 @@ public class TicketMachine
     /**
      * Exercise 2.44 - creating two different constructors
      */
-    public TicketMachine(int Cost)
-    {
-        price = Cost;
-        balance = 0;
-        total = 0;
-    }
-    
     public TicketMachine()
     {
-        /**
-         * Exercise 2.43
-         * 
-         * The effects of removing the parameter and making price fixed essentially prevents the user to add a custom price to the tickets in the object bench.
-         * In conscequently, it had gotten rid of many object which I created because the price was not set at 1000 cents.
-         * It can help to set a price for each specific ticket that's going to a specific area.
-         */
-        
-        price = 1000;
+        balance = 0;
+        total = 0;
     }
 
     /**
      * @Return The price of a ticket.
      */
-    public int getPrice()
+    public double getPrice()
+    {    
+        return price;
+    }
+    
+    public double TotalPrice(double n)
     {
+        price = price * n;
+        
+        return price;
+    }
+    
+    public double Location1()
+    {        
+        price = 70;
+        
+        return price;
+    }
+    
+    public double Location2()
+    {
+        price = 138;
+        
+        return price;
+    }
+    
+    public double Location3()
+    {
+        price = 17.60;
+        
+        return price;
+    }
+    
+    public double Location4()
+    {
+        price = 211.78;
+        
+        return price;
+    }
+    
+    public double Location5()
+    {
+        price = 126.50;
+        
         return price;
     }
 
@@ -62,12 +92,12 @@ public class TicketMachine
      * Return The amount of money already inserted for the
      * next ticket.
      */
-    public int getBalance()
+    public double getBalance()
     {
         return balance;
     }
     
-    public int EmptyCredits()
+    public double EmptyCredits()
     {
         balance = 0;
         
@@ -78,7 +108,7 @@ public class TicketMachine
      * Receive an amount of money from a customer.
      * Check that the amount is sensible.
      */
-    public void insertMoney(int amount)
+    public void insertMoney(double amount)
     {
         if(amount > 0) {
             balance = balance + amount;
@@ -96,21 +126,73 @@ public class TicketMachine
      */
     public void printTicket()
     {
-        if(balance >= price) {
+        System.out.println("Welcome to bluej lines ticket machine.");
+        
+        System.out.println();
+        
+        System.out.println("What location do you want to travel to?");
+        
+        String Region = key.nextLine();
+        
+        if(Region.equals("Manchester"))
+        {
+            Location1();
+        }
+        else if(Region.equals("France"))
+        {
+            Location2();
+        }
+        else if(Region.equals("London"))
+        {
+            Location3();
+        }
+        else if(Region.equals("Amsterdam"))
+        {
+            Location4();
+        }
+        else if(Region.equals("Edinburgh"))
+        {
+            Location5();
+        }
+        
+        while(!"Manchester".equals(Region) && !"France".equals(Region) && !"London".equals(Region) && !"Amsterdam".equals(Region) && !"Edinburgh".equals(Region))
+        {
+            System.out.println("ERROR!");
+            
+            System.out.println();
+            
+            System.out.println("Please try again");
+            
+            Region = key.nextLine();
+        }
+         
+        System.out.println();
+        
+        System.out.println("How many tickets do you want to buy?");
+        
+        double tickets = key.nextDouble();
+        
+        TotalPrice(tickets);
+        
+        String a;
+        
+        if(balance >= price) 
+        {
             // Simulate the printing of a ticket.
             System.out.println("Payment accepted.");
             System.out.println();
             System.out.println("##################");
             System.out.println("# The BlueJ Line");
+            System.out.println("# Location: " + Region);
             System.out.println("# Ticket");
             System.out.println("# " + price + " cents.");
             System.out.println("##################");
             System.out.println();
 
             // Update the total collected with the price.
-            total = total + price;
+            total = total += price;
             // Reduce the balance by the prince.
-            balance = balance - price;
+            balance = balance -= price;
             
             System.out.println("Balance left: " + balance + " cents");
             
@@ -118,9 +200,9 @@ public class TicketMachine
             
             System.out.println("Do you want to empty your balance? (yes/no)");
             
-            String a = key.nextLine();
+            a = key.next();
             
-            if(a == "yes")
+            if(a.equals("yes"))
             {
                 System.out.println("You've emptied your balance.");
                 
@@ -132,7 +214,7 @@ public class TicketMachine
                 
                 System.out.println();
             }
-            else if(a == "no")
+            else if(a.equals("no"))
             {
                 System.out.println("Your balance has not been changed.");
                 
@@ -147,17 +229,15 @@ public class TicketMachine
             
             System.out.println();
         }
-        
-        
     }
 
     /**
      * Return the money in the balance.
      * The balance is cleared.
      */
-    public int refundBalance()
+    public double refundBalance()
     {
-        int amountToRefund;
+        double amountToRefund;
         amountToRefund = balance;
         balance = 0;
         return amountToRefund;
